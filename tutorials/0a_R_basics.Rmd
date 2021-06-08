@@ -1,9 +1,8 @@
 ---
 title: "Tutorial 0a: Introduction to R Basics"
 output:
-  html_document:
+  pdf_document:
     toc: true
-    toc_float: true
 ---
 
 This tutorial will go over some basics about programming in R.  We hope that you'll get a feel for what R can do as well as learn where you can learn more to use it on your own (great resources are listed at the end).

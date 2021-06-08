@@ -1,9 +1,8 @@
 ---
 title: "Supplement: Exploring High Dimensional Data with PCA and Clustering"
 output:
-  html_document:
+  pdf_document:
     toc: true
-    toc_float: true
 ---
 
 ```{r setup, include=FALSE}

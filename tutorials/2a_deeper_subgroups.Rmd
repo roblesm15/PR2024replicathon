@@ -1,9 +1,8 @@
 ---
 title: "Tutorial 2a: Digging Deeper with Cell Line and Drug Subgroups"
 output:
-  html_document:
+  pdf_document:
     toc: true
-    toc_float: true
 ---
 
 ```{r setup, include=FALSE}

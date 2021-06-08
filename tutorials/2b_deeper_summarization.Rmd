@@ -1,9 +1,8 @@
 ---
 title: "Tutorial 2b: Digging Deeper with Drug Response Summarization"
 output:
-  html_document:
+  pdf_document:
     toc: true
-    toc_float: true
 ---
 
 ```{r echo=FALSE}
