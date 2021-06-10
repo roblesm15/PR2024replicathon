@@ -15,7 +15,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 In this R Markdown document, you and your team will create a fully reproducible analysis with the goal of assessing and interpreting the replicability of two pharmacogenomic experiments. This document should contain all of the text and code of your analyses, which will allow others to run, interpret, and reuse your work.
 
-The questions below will help guide you in your analyses and interpretation of results. You don't need to answer every question, but for the problems you do complete, make sure that you completely justify your conclusions by explaining your reasoning and including numerical summaries and data visualizations wherever possible. There are four tutorials (also R Markdown documents) that will help you learn new tools to tackle these problems, and the questions are divided into four sections corresponding to the tutorials (though many overlap with more than one tutorial). If questions arise during your analyses that do not fit into these problems, feel free to include those as well. 
+The questions below will help guide you in your analyses and interpretation of results. You don't need to answer every question, but for the problems you do complete, make sure that you completely justify your conclusions by explaining your reasoning and including numerical summaries and data visualizations wherever possible. There are nine tutorials (also R Markdown documents) that can help you learn new tools to tackle these problems, and some questions reference specific tutorials (though many overlap with more than one tutorial).
+
+Many of the questions are designed to be open-ended and you are strongly encouraged to write your own follow-up questions. The goal is for everyone's final presentation to be unique, regardless of which module you selected. If new questions arise during your analyses that do not fit into these specific prompts, feel free to explore them and present your findings. 
 
 For each answer, include text by simply typing below the question. Include code in code blocks (include three back ticks at the start and end of each code block):
 
@@ -28,6 +30,8 @@ You may find it helpful to use the version control and code sharing system calle
 ---
 
 ## Exploratory analysis of pharmacogenomic data
+
+Each team should answer these questions, which will help you get familiar with the available data sets.
 
 1. How many cell-lines are contained in the data?
 
@@ -55,7 +59,7 @@ doses. Are stronger drug concentrations consistent with lower viability scores?
 
 ## Modules:
 
-Each team will complete one module. The modules are complementary, so each team will focus on a different computational approach to analyze and interpret the replicability of two pharmacogenomic experiments. The goal is for each team to understand the computational approach as well as be able to interpret their results when applying it to the real data sets. The presentations should focus on both explaining the computational approach as well as plots illustrating their results.
+Each team will complete one module. The modules are complementary, so each team will focus on a different computational approach to analyze and interpret the replicability of two pharmacogenomic experiments. The goal is for each team to understand the computational approach as well as be able to interpret their results when applying it to the real data sets. The presentations should focus on both explaining the basic concepts as well as plots illustrating their results.
 
 ---
 
@@ -185,5 +189,5 @@ knitr::include_graphics("figures/reproducible.png")
 
 Summarize your conclusions regarding the level of concordance between the GDSC and CCLE studies. What are the most important considerations for fairly evaluating this question?
 
-Additionally, please prepare a brief (10 minute) presentation of your conclusions and any other aspects of these data sets which you found particularly interesting or challenging.
+Additionally, please prepare a brief (10 minute) presentation of the concepts covered in your module's introduction, as well as the conclusions of your analysis and any other aspects of these data sets which you found particularly interesting or challenging.
 
