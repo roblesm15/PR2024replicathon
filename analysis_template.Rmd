@@ -1,8 +1,10 @@
 ---
 title: "Insert your team name here"
-output: html_document
 date: Replicathon 2020
 author: Team members names
+output:
+  html_document:
+    toc: true
 ---
 
 ```{r setup, include=FALSE}
@@ -21,11 +23,11 @@ For each answer, include text by simply typing below the question. Include code 
 #Your code goes here
 ```
 
-You may find it helpful to use the version control and code sharing system called GitHub to work together with your team so that all of you can edit the same document and keep track of its changes. Here is a [setup guide](https://github.com/datasciencelabs/2016/blob/master/lectures/git-and-github/setting-up-git.Rmd) and [brief introduction to Git and GitHub](https://github.com/datasciencelabs/2016/blob/master/lectures/git-and-github/version-control.Rmd) from another course. The mentors will be able to help if you run into problems. 
+You may find it helpful to use the version control and code sharing system called GitHub to work together with your team so that all of you can edit the same document and keep track of its changes. Here is a [setup guide](https://github.com/datasciencelabs/2016/blob/master/lectures/git-and-github/setting-up-git.Rmd), [brief introduction to Git and GitHub](https://github.com/datasciencelabs/2016/blob/master/lectures/git-and-github/version-control.Rmd) from another course and [a version control course from software carpetry](https://swcarpentry.github.io/git-novice/). The mentors will be able to help if you run into problems. 
 
-## Questions:
+---
 
-### Exploratory analysis of pharmacogenomic data
+## Exploratory analysis of pharmacogenomic data
 
 1. How many cell-lines are contained in the data?
 
@@ -49,21 +51,33 @@ of variables are in the data? What does each column represent?
 6. Plot histograms of the viability scores at different levels of drug
 doses. Are stronger drug concentrations consistent with lower viability scores?
 
-### Using Correlation Measures to Assess Replicability of Drug Response Studies
+---
 
-1. Create a scatterplot for each drug comparing the AUC in GDSC and CCLE for all cell lines (hint: code from Tutorial 1b may help).
+## Modules:
 
-2. Calculate correlation coefficients of the AUC in GDSC and CCLE for each drug (hint: code from Tutorial 1b may help). 
+Each team will complete one module. The modules are complementary, so each team will focus on a different computational approach to analyze and interpret the replicability of two pharmacogenomic experiments. The goal is for each team to understand the computational approach as well as be able to interpret their results when applying it to the real data sets. The presentations should focus on both explaining the computational approach as well as plots illustrating their results.
 
-3. Based on the scatterplot and correlation values, would you say that they tend to agree? Why or why not?
+---
 
-4. Does the AUC or IC50 suggest more agreement between the studies? 
+### **Module 1:** Using Correlation Measures to Assess Replicability of Drug Response Studies
 
-5. Which drug do you think shows the most consistency between the studies? How about the least? 
+#### Introduction
 
-6. If you calculated more than one type of correlation coefficient (for example Pearson and Spearman), how do they differ? Which do you think is a better summary of the consistency between the two studies? 
+- What is correlation? 
 
-7. We have explored Pearson and Spearman correlation, but what about other correlation measures? For example, you could try out distance correlation, which is sensitive to nonlinear relationships. You can find this measure in the `energy` R package, which you'll need to install and load with the following commands:
+- What is the difference between Pearson, Spearman, and Matthews correlation?
+
+#### Analysis
+
+1. Create a scatterplot for each drug comparing the AUC in GDSC and CCLE for all cell lines (hint: code from Tutorial 1b may help). 
+
+2. Calculate the Pearson and Spearman correlation coefficients of the AUC in GDSC and CCLE for each drug (hint: code from Tutorial 1b may help).
+
+3. Based on the scatterplot and correlation values for AUC, would you say that GDSC and CCLE tend to agree? Why or why not?
+
+4. Do the Pearson and Spearman correlation coefficients that you calculated differ? Which do you think is a better summary of the consistency between the two studies? 
+
+5. We have explored Pearson and Spearman correlation, but what about other correlation measures? For example, you could try out distance correlation, which is sensitive to nonlinear relationships. You can find this measure in the `energy` R package, which you'll need to install and load with the following commands:
 
     ```{r, eval=FALSE}
     install.packages("energy")
@@ -72,42 +86,104 @@ doses. Are stronger drug concentrations consistent with lower viability scores?
 
     Then, you can compute distance correlation with the `dcor()` function. How does this correlation measure compare to Pearson and Spearman? Do your conclusions about the agreement between the two studies change at all using this measure?
 
-### Identifying biological factors that influence replicability of pharmacogenomic studies
+---
 
-1. Are there any cell lines that seem to be consistently resistant? (Hint: look for the 5 cell lines which seem the most resistant in both studies according to the average drug response by AUC; code from Tutorial 2a may help) What effect might this have on your conclusions and interpretations of the agreement between the studies? For example, do you observe any increase in replicability (as measured by correlation of drug response) if you exclude the most resistant cell lines?
+### **Module 2:** Comparing AUC and IC50 to Assess Replicability of Drug Response Studies
 
-2. Classify each cell line as resistant or sensitive to a drug based on its AUC value (Hint: choose a cutoff for which cell lines with AUC below the cutoff are considered resistant and explain your choice of cutoff(s); code from Tutorial 2a may help). Compare the assigned resistance status of cell lines in GDSC and CCLE for each drug. How often do the two studies agree? 
+#### Introduction
 
-3. Compute the Matthews correlation coefficient for sensitivity status (from #2) of cell lines in GDSC and CCLE for each drug (Hint: code from Tutorial 2a may help). Do certain drugs show more or less agreement between studies?
+- What are AUC and IC50? How are they computed?
 
-4. Are there any drugs for which most or all cell lines seem to be resistant in both studies (Hint: code from Tutorial 2a may help)? If so, what are the correlation values for these drugs? What do these results imply about the replicability of these studies?
+- How are we using these measures to compare the two studies?
 
-5. Compare the Matthews correlation coefficient values by drug classes defined in Tutorial 2a (No effect, Narrow effect, Broad effect). Which drug class shows the most agreement between the studies? 
+#### Analysis
 
-6. Would you say that the sensitivity results for the two studies tend to agree?
+1. Make a scatterplot of AUC in CCLE vs. AUC in GDSC, and a scatterplot of IC50 in CCLE vs. IC50 in GDSC.
 
-7. For one of the targeted drugs, examine the cell lines that were sensitive in the CCLE and/or GDSC. See if you can find out what types of cells these are by searching the online Cancer Cell Line Encyclopedia http://www.broadinstitute.org/ccle (this will prompt you to register with a username, password, and email address. If you prefer, you can also search the cell line on other websites). See if you can find out what types of cancers this drug is targeted for using the NCI cancer drug database at https://www.cancer.gov/about-cancer/treatment/drugs. Does the list of cell lines found to be sensitive in the two studies agree with this?
+2. Calculate the correlation between AUC in CCLE and AUC in GDSC, and the correlation between IC50 in CCLE and IC50 in GDSC.
 
-### Modeling the relation between two variables (drug concentration vs viability)
+3. Does the AUC or IC50 suggest more agreement between the studies? 
+
+4. Based on AUC, which drug do you think shows the most consistency between the studies? How about the least? Repeat for IC50.
+
+5. Analyze the model-based re-calculations of IC50 and AUCs from the drug 17-AAG in the H4 cell-line and the drug Nilotinib cell-line in the 22RV1 cell-line. See the figure below and answer: which statistic is more robust, IC50 or AUC? Which statistic is more generalizable, IC50 or AUC? Justify your answer with examples and/or using the whole data recalculations from the *modelSummarizedPharmacoData.rds* file.
+
+```{r, echo = FALSE, out.width = "400px", fig.cap = "Modified from [Kirstie Whitaker](https://github.com/KirstieJane/)."}
+knitr::include_graphics("figures/reproducible.png")
+``` 
+
+
+6. Are the results more replicable if one uses the same code to calculate IC50 or AUC on the different datasets? Hint: you can use code from Tutorial 2a to evaluate this.
+
+---
+
+### **Module 3:** Identifying Biological Factors that Influence Replicability of Drug Response Studies
+
+#### Introduction
+
+- What are cell lines? 
+
+- Why are cell lines useful for studying drug response?
+
+- What are some limitations of using cell lines to study drug response?
+
+#### Analysis
+
+1. Are there any cell lines that seem to be consistently resistant in both studies? (Hint: code from Tutorial 2a may help)? 
+
+2. Compute the Matthews correlation coefficient for sensitivity status (from #2) of cell lines in GDSC and CCLE for each drug (Hint: code from Tutorial 2a may help). Do certain drugs show more or less agreement between studies?
+
+3. Would you say that the drug sensitivity results for the two studies tend to agree, based on the correlation coefficient values you calculated?
+
+4. For one of the targeted drugs, examine the cell lines that were sensitive in the CCLE and/or GDSC. See if you can find out what types of cells these are by searching the online Cancer Cell Line Encyclopedia http://www.broadinstitute.org/ccle (this will prompt you to register with a username, password, and email address. If you prefer, you can also search the cell line on other websites). See if you can find out what types of cancers this drug is targeted for using the NCI cancer drug database at https://www.cancer.gov/about-cancer/treatment/drugs. Does the list of cell lines found to be sensitive in the two studies agree with this?
+
+5. If you have additional time, investigate other targeted drugs.
+
+---
+
+### **Module 4:** Classification of Cell Lines as Resistant or Sensitive in Drug Response Studies
+
+#### Introduction
+
+- What is classification?
+
+- What are some statistical/machine learning methods people use for classification?
+
+#### Analysis
+
+1. Plot the distribution of the average drug response by AUC for GDSC and CCLE. 
+
+2. Classify each cell line as “resistant” or “sensitive” to a drug based on its AUC value by choosing a cutoff for which cell lines with AUC below the cutoff are considered resistant; code from Tutorial 2a may help. 
+
+3. Compare your assigned resistance status of cell lines in GDSC and CCLE for each drug. How often do the two studies agree? 
+
+4. Experiment with varying your cutoff threshold and compare the assigned resistance status. Which cutoff shows the most agreement between studies? The least agreement? 
+
+
+---
+
+### **Module 5:** Modeling the Relationship Between Drug Concentration and Viability
+
+#### Introduction
+
+- How is viability measured for cell lines?
+
+- Suppose we know that a certain drug should not decrease the viability of a particular cell line. What are some reasons why we might (falsely) observe a response in a cell line experiment? Hint: think human error, biological variability.
+
+#### Analysis
 
 1. Explore the response curves for several drug-cell line combinations. How many drugs-cell line combinations contain viability response values that would potentially enable them to be summarized into an IC50 value? You can answer this, for example, by checking whether there are viability values both above and below 50%.
 
-2. Analyze the model-based re-calculations of IC50 and AUCs from the drug 17-AAG in the H4 cell-line and the drug Nilotinib cell-line in the 22RV1 cell-line. See the figure below and asnwer: which statistic is more roboust, IC50 or AUC? Which statistic is more generalizable, IC50 or AUC? Justify your answer with examples and/or using the whole data recalculations from the *modelSummarizedPharmacoData.rds* file.
+2. Summarize the viability curves of all the drugs in each cell-line using the slope of a linear model. Is the slope of the linear regression informative of the drug response? 
 
-```{r, echo = FALSE, out.width = "400px"}
-knitr::include_graphics("figures/reproducible.png")
-```
+3. Calculate the correlation of the slopes between studies, and compare it to the correlation of IC50 and AUC between studies. Can we improve the replicability of the studies by using the value of the slope instead of IC50s or AUCs?
 
-Modified from [Kirstie Whitaker](https://github.com/KirstieJane/).
 
-3. Are the results more replicable if one uses the same code to calculate IC50 or AUC on the different datasets? Hint: you can use code from Tutorial 2a to evaluate this.
-
-4. Summarize the viability curves of all the drugs in each cell-line using the slope of linear model. Is the slope of the linear regression informative of the drug response? Can we improve the replicability of the studies by using the value of the slope instead of IC50s or AUCs? 
+---
 
 ## Overall Findings:
 
 Summarize your conclusions regarding the level of concordance between the GDSC and CCLE studies. What are the most important considerations for fairly evaluating this question?
 
 Additionally, please prepare a brief (10 minute) presentation of your conclusions and any other aspects of these data sets which you found particularly interesting or challenging.
-
 
