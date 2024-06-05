@@ -1,0 +1,175 @@
+---
+title: "Insert your team name here"
+date: Replicathon 2024
+author: Team members names
+format: html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Instructions:
+
+In this Quarto document, you and your team will create a fully reproducible analysis with the goal of assessing and interpreting the replicability of two pharmacogenomic experiments. This document should contain all of the text and code of your analyses, which will allow others to run, interpret, and reuse your work.
+
+The questions below will help guide you in your analyses and interpretation of results. You don't need to answer every question, but for the problems you do complete, make sure that you completely justify your conclusions by explaining your reasoning and including numerical summaries and data visualizations wherever possible. There are nine tutorials (also Quarto documents) that can help you learn new tools to tackle these problems, and some questions reference specific tutorials (though many overlap with more than one tutorial).
+
+Many of the questions are designed to be open-ended and you are strongly encouraged to write your own follow-up questions. The goal is for everyone's final presentation to be unique, regardless of which module you selected. If new questions arise during your analyses that do not fit into these specific prompts, feel free to explore them and present your findings.
+
+For each answer, include text by simply typing below the question. Include code in code blocks (include three back ticks at the start and end of each code block):
+
+```{r}
+#Your code goes here
+```
+
+------------------------------------------------------------------------
+
+## Exploratory analysis of pharmacogenomic data
+
+Each team should answer these questions, which will help you get familiar with the available data sets.
+
+1.  How many cell-lines are contained in the data?
+
+2.  What drug concentrations were used in each study?
+
+3.  Histograms, apart from telling us how the data is distributed, can also make evident potential problems with the data. Plot a histogram of drug viabilities. Does it look as one would expect from the description of the data?
+
+4.  How many viability data points are within the expected range according to the definition of viability (e.g. above 0 and below 100)? Try to come up with explanations about the values that are out of range. Are these due to technical issues? Biology?
+
+5.  Read the rds file containing the summarized data. What kinds of variables are in the data? What does each column represent?
+
+6.  Plot histograms of the viability scores at different levels of drug doses (doseID). Are stronger drug concentrations consistent with lower viability scores?
+
+------------------------------------------------------------------------
+
+## Modules:
+
+Each team will complete one module. The modules are complementary, so each team will focus on a different computational approach to analyze and interpret the replicability of two pharmacogenomic experiments. The goal is for each team to understand the computational approach as well as be able to interpret their results when applying it to the real data sets. The presentations should focus on both explaining the basic concepts as well as plots illustrating their results.
+
+------------------------------------------------------------------------
+
+### **Module 1:** Using Correlation Measures to Assess Replicability of Drug Response Studies
+
+#### Introduction
+
+-   What is correlation?
+
+-   What is the difference between Pearson, Spearman, and Matthews correlation?
+
+#### Analysis
+
+1.  Create a scatterplot for each drug comparing the AUC in GDSC and CCLE for all cell lines (hint: code from Tutorial 1b may help).
+
+2.  Calculate the Pearson and Spearman correlation coefficients of the AUC in GDSC and CCLE for each drug (hint: code from Tutorial 1b may help).
+
+3.  Based on the scatterplot and correlation values for AUC, would you say that GDSC and CCLE tend to agree? Why or why not?
+
+4.  Do the Pearson and Spearman correlation coefficients that you calculated differ? Which do you think is a better summary of the consistency between the two studies?
+
+5.  We have explored Pearson and Spearman correlation, but what about other correlation measures? For example, you could try out distance correlation, which is sensitive to nonlinear relationships. You can find this measure in the `energy` R package, which you'll need to install and load with the following commands:
+
+    ```{r, eval=FALSE}
+    install.packages("energy")
+    library(energy)
+    ```
+
+    Then, you can compute distance correlation with the `dcor()` function. How does this correlation measure compare to Pearson and Spearman? Do your conclusions about the agreement between the two studies change at all using this measure?
+
+------------------------------------------------------------------------
+
+### **Module 2:** Comparing AUC and IC50 to Assess Replicability of Drug Response Studies
+
+#### Introduction
+
+-   What are AUC and IC50? How are they computed?
+
+-   How are we using these measures to compare the two studies?
+
+#### Analysis
+
+1.  Make a scatterplot of AUC in CCLE vs. AUC in GDSC, and a scatterplot of IC50 in CCLE vs. IC50 in GDSC.
+
+2.  Calculate the correlation between AUC in CCLE and AUC in GDSC, and the correlation between IC50 in CCLE and IC50 in GDSC.
+
+3.  Does the AUC or IC50 suggest more agreement between the studies?
+
+4.  Based on AUC, which drug do you think shows the most consistency between the studies? How about the least? Repeat for IC50.
+
+5.  Analyze the model-based re-calculations of IC50 and AUCs from the drug 17-AAG in the H4 cell-line and the drug Nilotinib cell-line in the 22RV1 cell-line. See the figure below and answer: which statistic is more robust, IC50 or AUC? Which statistic is more generalizable, IC50 or AUC? Justify your answer with examples and/or using the whole data recalculations from the *modelSummarizedPharmacoData.rds* file.
+
+```{r, echo = FALSE, out.width = "400px", fig.cap = "Modified from [Kirstie Whitaker](https://github.com/KirstieJane/)."}
+knitr::include_graphics("figures/reproducible.png")
+```
+
+6.  Are the results more replicable if one uses the same code to calculate IC50 or AUC on the different datasets? Hint: you can use code from Tutorial 2a to evaluate this.
+
+------------------------------------------------------------------------
+
+### **Module 3:** Identifying Biological Factors that Influence Replicability of Drug Response Studies
+
+#### Introduction
+
+-   What are cell lines?
+
+-   Why are cell lines useful for studying drug response?
+
+-   What are some limitations of using cell lines to study drug response?
+
+#### Analysis
+
+1.  Are there any cell lines that seem to be consistently resistant in both studies? (Hint: code from Tutorial 2a may help)?
+
+2.  Compute the Matthews correlation coefficient for sensitivity status (from #2) of cell lines in GDSC and CCLE for each drug (Hint: code from Tutorial 2a may help). Do certain drugs show more or less agreement between studies?
+
+3.  Would you say that the drug sensitivity results for the two studies tend to agree, based on the correlation coefficient values you calculated?
+
+4.  For one of the targeted drugs, examine the cell lines that were sensitive in the CCLE and/or GDSC. See if you can find out what types of cells these are by searching the online Cancer Cell Line Encyclopedia http://www.broadinstitute.org/ccle (this will prompt you to register with a username, password, and email address. If you prefer, you can also search the cell line on other websites). See if you can find out what types of cancers this drug is targeted for using the NCI cancer drug database at https://www.cancer.gov/about-cancer/treatment/drugs. Does the list of cell lines found to be sensitive in the two studies agree with this?
+
+5.  If you have additional time, investigate other targeted drugs.
+
+------------------------------------------------------------------------
+
+### **Module 4:** Classification of Cell Lines as Resistant or Sensitive in Drug Response Studies
+
+#### Introduction
+
+-   What is classification?
+
+-   What are some statistical/machine learning methods people use for classification?
+
+#### Analysis
+
+1.  Plot the distribution of the average drug response by AUC for GDSC and CCLE.
+
+2.  Classify each cell line as “resistant” or “sensitive” to a drug based on its AUC value by choosing a cutoff for which cell lines with AUC below the cutoff are considered resistant; code from Tutorial 2a may help.
+
+3.  Compare your assigned resistance status of cell lines in GDSC and CCLE for each drug. How often do the two studies agree?
+
+4.  Experiment with varying your cutoff threshold and compare the assigned resistance status. Which cutoff shows the most agreement between studies? The least agreement?
+
+------------------------------------------------------------------------
+
+### **Module 5:** Modeling the Relationship Between Drug Concentration and Viability
+
+#### Introduction
+
+-   How is viability measured for cell lines?
+
+-   Suppose we know that a certain drug should not decrease the viability of a particular cell line. What are some reasons why we might (falsely) observe a response in a cell line experiment? Hint: think human error, biological variability.
+
+#### Analysis
+
+1.  Explore the response curves for several drug-cell line combinations. How many drugs-cell line combinations contain viability response values that would potentially enable them to be summarized into an IC50 value? You can answer this, for example, by checking whether there are viability values both above and below 50%.
+
+2.  Summarize the viability curves of all the drugs in each cell-line using the slope of a linear model. Is the slope of the linear regression informative of the drug response?
+
+3.  Calculate the correlation of the slopes between studies, and compare it to the correlation of IC50 and AUC between studies. Can we improve the replicability of the studies by using the value of the slope instead of IC50s or AUCs?
+
+------------------------------------------------------------------------
+
+## Overall Findings:
+
+Summarize your conclusions regarding the level of concordance between the GDSC and CCLE studies. What are the most important considerations for fairly evaluating this question?
+
+Additionally, please prepare a brief (10 minute) presentation of the concepts covered in your module's introduction, as well as the conclusions of your analysis and any other aspects of these data sets which you found particularly interesting or challenging.
