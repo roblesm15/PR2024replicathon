@@ -84,7 +84,7 @@ One of the first things data scientists do when digging into new data is to expl
 ```{r conc-hist, fig.width = 8, fig.height = 4, warning = FALSE}
 pharmacoData |>
     ggplot(aes(x = log2(concentration))) +
-    geom_histogram(fill = "gray", color = "black") +
+    geom_histogram(fill = "gray", color = "black", binwidth = 1) +
     facet_wrap(~ study) +
     ggtitle("Distributions of concentrations by study")
 ```
