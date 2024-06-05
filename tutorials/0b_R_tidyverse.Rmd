@@ -19,7 +19,7 @@ This tutorial will go over some basics about programming in R using packages in 
 
 Phew! That's a lot of packages!
 
-Unforunately, we don't have time to cover all of them. Instead, we'll give a light introduction to a couple of the packages that will be helpful for working with large datasets:
+Unfortunately, we don't have time to cover all of them. Instead, we'll give a light introduction to a couple of the packages that will be helpful for working with large datasets:
 
 - [`dplyr`](https://dplyr.tidyverse.org/) : for data manipulation,
 - [`tidyr`](https://tidyr.tidyverse.org/) : for "tidy"ing data.
