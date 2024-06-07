@@ -1,5 +1,7 @@
-/tutorials/*.pdf
+*.RProj
+*_files/
 /tutorials/*.html
 /analysis_template.html
 /analysis_template.pdf
-
+*.DS_Store
+.Rproj.user

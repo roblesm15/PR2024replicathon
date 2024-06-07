@@ -1,7 +1,11 @@
 ---
 title: "Tutorial 1a: Exploring Pharmacological Data with the `rawPharmacoData` Dataset"
-format: html
-editor: visual
+format: revealjs
+smaller: true
+echo: true
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r echo=FALSE}
@@ -10,11 +14,33 @@ knitr::opts_chunk$set(cache=FALSE)
 
 ## Introduction
 
-Probably the most important step of analyzing datasets is to actually understand the data. This process is crucial to know what kind of questions we can answer with it. This tutorial has code that will help guiding you through this process with the `rawPharmacoData` dataset. Make sure you understand the experimental design of the two studies well and try to link each variable to this experimental design. Also, make sure you understand what each *R* command is doing. Feel free to hack the code!
+```{css, echo = FALSE}
+code.sourceCode {
+  font-size: 1.3em;
+  /* or try font-size: xx-large; */
+}
+```
 
-When it makes sense, we include examples for answering the question using both base R and the tidyverse packages. There's usually more than one way of doing things in R!
 
-If you have any question about the code, ask one of the mentors. Also remember that [Google](https://www.google.com) search and [ChatGPT](https://chatgpt.com) can aid you in data science tasks.
+Probably the most important step of analyzing datasets is to actually
+understand the data. This process is crucial to know what kind of
+questions we can answer with it.
+
+This tutorial has code that will help guiding you through this process
+with the `rawPharmacoData` dataset.
+
+Make sure you understand the experimental design of the two studies well
+and try to link each variable to this experimental design. Also, make
+sure you understand what each *R* command is doing. Feel free to hack
+the code!
+
+When it makes sense, we include examples for answering the question
+using both base R and the tidyverse packages. There's usually more than
+one way of doing things in R!
+
+If you have any question about the code, ask one of the mentors. Also
+remember that [Google](https://www.google.com) search and
+[ChatGPT](https://chatgpt.com) can aid you in data science tasks.
 
 ## Setup Workspace
 
@@ -24,7 +50,10 @@ We start by loading the tidyverse family of packages.
 library(tidyverse)
 ```
 
-There are [several pre-defined themes for plotting with `ggplot2`](https://ggplot2.tidyverse.org/reference/ggtheme.html). While the default "`theme_gray`" is nice, we will set the default to "`theme_bw`" using the `theme_set` function.
+There are [several pre-defined themes for plotting with
+`ggplot2`](https://ggplot2.tidyverse.org/reference/ggtheme.html). While
+the default "`theme_gray`" is nice, we will set the default to
+"`theme_bw`" using the `theme_set` function.
 
 ```{r}
 theme_set(theme_bw())
@@ -32,7 +61,8 @@ theme_set(theme_bw())
 
 ## Load Raw Dataset
 
-Let's start by loading the `RDS` file containing the raw pharmacological data.
+Let's start by loading the `RDS` file containing the raw pharmacological
+data.
 
 ```{r read-rds}
 pharmacoData <- readRDS(file.path("..", "data", "rawPharmacoData.rds"))
@@ -40,7 +70,8 @@ pharmacoData <- readRDS(file.path("..", "data", "rawPharmacoData.rds"))
 
 ## Exploratory Analysis
 
-We can take a quick peek at the data using the `head` and `str` functions.
+We can take a quick peek at the data using the `head` and `str`
+functions.
 
 -   What kind of variables are in the data?
 
@@ -52,6 +83,9 @@ We can take a quick peek at the data using the `head` and `str` functions.
 head(pharmacoData)
 str(pharmacoData)
 ```
+
+---
+
 
 Next, we can count the number of drugs and cell lines in the dataset.
 
@@ -66,7 +100,10 @@ pharmacoData |>
               nDrugs     = n_distinct(drug))
 ```
 
-Let's also try something a little more complex. We can also count the number of unique drug concentrations **in each study** separately.
+---
+
+Let's also try something a little more complex. We can also count the
+number of unique drug concentrations **in each study** separately.
 
 ```{r count-conc}
 ## with base R
@@ -79,7 +116,13 @@ pharmacoData |>
     summarize(n = n_distinct(concentration))
 ```
 
-One of the first things data scientists do when digging into new data is to explore their distributions. Histograms visualize the data distributions and can also point us towards statistical models to use. The code below transforms the concentration values to the logarithmic scale and plots a histogram separately for each study.
+---
+
+One of the first things data scientists do when digging into new data is
+to explore their distributions. Histograms visualize the data
+distributions and can also point us towards statistical models to use.
+The code below transforms the concentration values to the logarithmic
+scale and plots a histogram separately for each study.
 
 ```{r conc-hist, fig.width = 8, fig.height = 4, warning = FALSE}
 pharmacoData |>
@@ -89,11 +132,17 @@ pharmacoData |>
     ggtitle("Distributions of concentrations by study")
 ```
 
-Based on these plots, which study would you say has the most consistent experimental protocol?
+Based on these plots, which study would you say has the most consistent
+experimental protocol?
 
 > Place your answer here
 
-Viability scores are the percentage of cells that survive upon exposure to a certain drug. Below, we will explore the range of the data and calculate how many data points are below 0 and above 100.
+---
+
+
+Viability scores are the percentage of cells that survive upon exposure
+to a certain drug. Below, we will explore the range of the data and
+calculate how many data points are below 0 and above 100.
 
 ```{r viability-summaries}
 ## with base R
@@ -109,7 +158,11 @@ pharmacoData |>
               n_too_big     = sum(viability > 100))
 ```
 
-We can also compare the distribution of viability scores between the two studies using density plots.
+---
+
+
+We can also compare the distribution of viability scores between the two
+studies using density plots.
 
 ```{r log-density, fig.width = 8, fig.height = 4, warning = FALSE}
 pharmacoData |>
@@ -119,11 +172,16 @@ pharmacoData |>
     ggtitle("Distributions of viability scores by study")
 ```
 
-Based on the distribution of the viability scores, would you say there are obvious differences between the two studies?
+Based on the distribution of the viability scores, would you say there
+are obvious differences between the two studies?
 
 > Place your answer here
 
-The code below plots the viability scores as box-plots for each drug, stratified by the two studies. We highlight the region of the plot where viability scores should fall (between 0 and 100).
+---
+
+The code below plots the viability scores as box-plots for each drug,
+stratified by the two studies. We highlight the region of the plot where
+viability scores should fall (between 0 and 100).
 
 ```{r viability-boxplots, fig.width = 8, fig.height = 4, warning = FALSE}
 gp <- pharmacoData |>
@@ -137,12 +195,18 @@ gp <- pharmacoData |>
 gp
 ```
 
-There appear to be a few outliers with incredibly high viability scores! We should keep this in mind, but to get a better look at the majority of the data, we can limit the y-axis of the plot.
+There appear to be a few outliers with incredibly high viability scores!
+
+---
+
+We should keep this in mind, but to get a better look at the majority of
+the data, we can limit the y-axis of the plot.
 
 ```{r viability-boxplots-limit, fig.width = 8, fig.height = 4, warning = FALSE}
 gp + ylim(0, 200)
 ```
 
-Can you tell something about the toxic properties of the different drugs? Are these properties consistent across studies?
+Can you tell something about the toxic properties of the different
+drugs? Are these properties consistent across studies?
 
 > Place your answer here
