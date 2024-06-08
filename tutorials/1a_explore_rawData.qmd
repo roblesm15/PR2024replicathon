@@ -21,7 +21,6 @@ code.sourceCode {
 }
 ```
 
-
 Probably the most important step of analyzing datasets is to actually
 understand the data. This process is crucial to know what kind of
 questions we can answer with it.
@@ -84,8 +83,7 @@ head(pharmacoData)
 str(pharmacoData)
 ```
 
----
-
+------------------------------------------------------------------------
 
 Next, we can count the number of drugs and cell lines in the dataset.
 
@@ -100,7 +98,7 @@ pharmacoData |>
               nDrugs     = n_distinct(drug))
 ```
 
----
+------------------------------------------------------------------------
 
 Let's also try something a little more complex. We can also count the
 number of unique drug concentrations **in each study** separately.
@@ -116,7 +114,7 @@ pharmacoData |>
     summarize(n = n_distinct(concentration))
 ```
 
----
+------------------------------------------------------------------------
 
 One of the first things data scientists do when digging into new data is
 to explore their distributions. Histograms visualize the data
@@ -137,8 +135,7 @@ experimental protocol?
 
 > Place your answer here
 
----
-
+------------------------------------------------------------------------
 
 Viability scores are the percentage of cells that survive upon exposure
 to a certain drug. Below, we will explore the range of the data and
@@ -158,8 +155,7 @@ pharmacoData |>
               n_too_big     = sum(viability > 100))
 ```
 
----
-
+------------------------------------------------------------------------
 
 We can also compare the distribution of viability scores between the two
 studies using density plots.
@@ -177,7 +173,7 @@ are obvious differences between the two studies?
 
 > Place your answer here
 
----
+------------------------------------------------------------------------
 
 The code below plots the viability scores as box-plots for each drug,
 stratified by the two studies. We highlight the region of the plot where
@@ -197,7 +193,7 @@ gp
 
 There appear to be a few outliers with incredibly high viability scores!
 
----
+------------------------------------------------------------------------
 
 We should keep this in mind, but to get a better look at the majority of
 the data, we can limit the y-axis of the plot.
@@ -210,3 +206,43 @@ Can you tell something about the toxic properties of the different
 drugs? Are these properties consistent across studies?
 
 > Place your answer here
+
+## Confirmatory Analysis
+
+So far, we have visually inspected plots of the data to answer scientific questions. This is typically referred to as "*Exploratory* Data Analysis" (EDA).  
+
+-   This type of analysis is useful for getting a sense of what the data looks like and getting a personal sense of what scientific questions might be worth further investigation.
+-   However, visual inspection is imprecise; what looks like a large difference to one person might be small to another
+
+*Confirmatory analysis* allows to quantify whether the differences we might see in a plot are actually "significant" (whether they actually might mean something) or whether they really just result from the randomness of experimentation.
+
+------------------------------------------------------------------------
+
+A **statistical hypothesis test** is a procedure to tell us whether our results might be "statistically significant" -- meaning, not just due to random experimental error alone. 
+
+- To perform a hypothesis test, we first formulate a *null hypothesis*: a condition under which we consider absolutely no effect to have occurred.
+- For example, if we want to know whether the two studies in this data differed in terms of viability across drugs and cell lines, we might compare the *mean viability* score. 
+- In this case, our null hypothesis is that 
+
+$$\text{mean viability in CCLE} - \text{mean viability in GDSC} = 0$$  
+
+- To test this hypothesis statistically, we choose a test that compares means. The most common is the *t-test*.
+- There are other types of hypotheses and ways of testing them too; we won't go into the mathematical details here, but **you can read more about such procedures in the Supplementary Tutorial, Supplement: Statistical Hypothesis Testing**
+
+------------------------------------------------------------------------
+
+We can test whether the difference between the mean viability across studies is "statistically significant" using the `t.test` function below:
+
+```{r}
+t.test(viability ~ study, data = pharmacoData)
+```
+
+
+The **p-value** tells us the *probability* of sampling data with a difference in means as large as our own sample had the "true" difference been equal to 0. If the p-value is below some low threshold -- commonly 0.05 or 0.01 -- then we can say we've "rejected the null hypothesis", meaning that the difference in means is probably *not* just due to randomness.  
+
+The p-value of the above is 2.2e-16. Does this indicate that the difference in mean viability between CCLE and GDSC is more than just random experimental error?  
+
+> Place your answer here
+
+---
+
