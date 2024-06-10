@@ -1,0 +1,108 @@
+---
+title: "Supplement: Statistical Hypothesis Testing"
+format: html
+editor: visual
+---
+
+```{r}
+set.seed(1)
+```
+
+
+## Introduction
+
+As scientists, you are undoubtedly familiar with the concept of a **hypothesis**: a proposed explanation for some phenomenon. A **statistical hypothesis test** is a mathematical procedure that tells us whether *data* support a given hypothesis. These procedures seek to disprove a *null hypothesis*: the proposition that there exists "no effect" in the data
+
+*Example of a null hypothesis*: The mean in group A, $\mu_A$, is the same as the mean in group B, $\mu_B$ (that is, $\mu_A - \mu_B = 0$)
+
+R provides functions that can run a statistical hypothesis test on a given set of data. Statistical hypotheses always concern some *summary statistic* of the data, such as a mean, proportion, or contingency table. The summary statistic that you want to test determines the type of statistical hypothesis test and corresponding R function that you should use. This summary statistic, when used in statistical test, is typically called a **test statistic**. 
+
+## How Statistical Tests Work
+
+If the null hypothesis is true, then the summary statistic is expected to follow a given distribution
+
+- For example, a (standardized) *mean* will follow a *t-distribution*
+
+![](images/t1){fig-align="center"}
+
+If the null hypothesis were true, and one were to randomly sample a set of data, then there will be certain values of the test statistic that will be more likely, and others that will be less likely. Some will even be *extremely* unlikely, we are denoted below in the shaded red regions. We call the probability of a test statistic being equal to or more extreme than the one we observed the **p-value**. 
+
+![](images/t1){fig-align="center"}
+
+If p-value of a given test statistic is very low (based on the distribution we expect under the null hypothesis), then the null hypothesis is probably *not* true! In this case, we can *reject* the null hypothesis, and claim that the test statistic is "statistically significant." That is, the result (say, a difference in means between groups A and B) is probably not just due to randomness in the data collection, but rather some real difference between groups A and B.
+
+
+Conversely, if the p-value of a given test statistic is relatively high, then there is no reason to reject the null hypothesis, and we cannot say that the test statistic is "meaningful." If the test statistic result is not meaningful -- that is, it is probably just due to experimental error or noise -- then we would call the result *statistically insignificant*. 
+
+How low does the p-value have to be to be considered "significant"? Typically, scientists consider $p < 0.05$ to be significant, though some fields set more strict thresholds for significance, such as $p < 0.01$ or $p < 0.001$. 
+
+## Examples of Common Statistical Tests
+
+In the following sections, we demonstrate how to conduct some common statistical tests based on different types of data that you might collect.
+
+### T-Test
+
+The t-test is used to test null hypotheses involving *means* of *continuous* data. Below, we simulate some continuous data from a normal distribution, where the true population mean is equal to 0.
+
+```{r}
+x1 <- rnorm(50)
+hist(x1)
+```
+
+A **one-sample** t-test tests the null hypothesis that some mean is equal to 0. It can be conducted using the following R code:
+
+```{r}
+t.test(x1)
+
+```
+What is the p-value of this test? What does it say about the null hypothesis that the true mean is equal to 0?
+
+> Place your answer here
+
+We can use a *two-sided* t-test to compare means between two groups. If we draw random data $X_2$, we can then test whether its mean is larger than that of the simulated data $X_1$ using the same function as before:
+
+```{r}
+x2 <- rnorm(50, 1)
+t.test(x1, x2)
+
+```
+In this simulation, we set $X_2$ to have a "true" (population) mean equal to 1, while the true mean of $X_1$ was 0. Does the p-value reflect the fact that the true means of these two groups actually are different?
+
+> Place your answer here
+
+
+### Chi-squared Test
+
+What if we have categorical data instead of continuous data? In this case, we can construct a *contigency table* summarizing the number of occurrences of each category.
+
+In this example below, we simulate data with four categories -- A, B, C, and D -- between two groups, X and Y, and summarize them into a contigency table using the `table` and `cbind` (which combines two vectors column-wise) commands in R.
+
+
+```{r}
+x <- sample(c('A', 'B', 'C', 'D'), 100, replace=TRUE, prob = c(0.3, 0.2, 0.3, 0.2))
+y <- sample(c('A', 'B', 'C', 'D'), 100, replace=TRUE, prob = c(0.4, 0.05, 0.2, 0.35))
+
+x_tbl <- table(x)
+y_tbl <- table(y)
+
+data <- cbind(x = x_tbl, y = y_tbl)
+
+```
+
+In this case, our null hypothesis is that the *counts* recorded in each cell are independent -- that is, that there is no difference in the probability of a given sample falling into a given category between the groups X and Y. 
+
+Using the contigency table as our summary of the data, this null hypothesis can be tested in R using a Chi-Squared ($\chi^2$) Test. While we will gloss over the mathematical details here, the basic idea is that the sum of squared deviation of each cell from its "expected" count will follow a *chi-squared distribution* shown below. 
+
+
+R will do all of the computation automatically if we simply apply hte `chisq.test` function to our data:
+
+
+```{r}
+chisq.test(data)
+
+```
+What is the p-value of our observed contigency table? What does this mean scientifically? Does the result make sense, given that categories of $X$ are sampled with different probabilities than the categories of $Y$?
+
+> Place your answer here
+
+
