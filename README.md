@@ -2,9 +2,10 @@
 
 ## Getting Started
 
-Check out the [**introduction slides**](https://speakerdeck.com/merci/replicathon-2022) to review the goals and context for the event! If you're interested in learning more, links to relevant papers are included in the [Useful Links](#useful-links) section below. There are a couple ways that you can get started.
+Check out the [**introduction slides**](https://docs.google.com/presentation/d/1DJ_fO7CV5CIhxyFlwO8PxGSUQaIMT42x45HMy-pBdVQ/edit?usp=sharing) to review the goals and context for the event! If you're interested in learning more, links to relevant papers are included in the [Useful Links](#useful-links) section below. There are a couple ways that you can get started.
 
-1. **If you have R already installed and ready to go**, clone or download [this repository](https://github.com/kstreet13/PR2021replicathon) to your computer and open the `.qmd` files with [RStudio](https://rstudio.com/) or any other editor that you're comfortable using.
+- **If you have R and RStudio already installed and ready to go**, follow the RStudio project setup steps on slide 5 of [tutoral 0a](https://github.com/roblesm15/PR2024replicathon/blob/master/tutorials/0a_R_basics.pdf).
+- **Otherwise**, follow the instructions on slide 4 of [tutoral 0a](https://github.com/roblesm15/PR2024replicathon/blob/master/tutorials/0a_R_basics.pdf) to setup an account at [posit.cloud](https://posit.cloud/content/yours?sort=name_asc), then follow the Posit Cloud project setup steps on slide 5 of [tutoral 0a](https://github.com/roblesm15/PR2024replicathon/blob/master/tutorials/0a_R_basics.pdf).
 
 ## Reinforcement Questions
 
@@ -14,7 +15,7 @@ After going over the introductory slides and presentation, we will work through 
 
 ## Main Analysis Template
 
-* [`analysis_template.Rmd`](analysis_template.Rmd) : R markdown template which each team will use to create a fully reproducible analysis with the goal of assessing and interpreting the replicability of two pharmacogenomic experiments. This document will contain all of the text and code of their analyses, which are guided by a series of questions. The tools and concepts needed to answer the questions are explored in the tutorials.
+* [`analysis_template.qmd`](analysis_template.qmd) : R markdown template which each team will use to create a fully reproducible analysis with the goal of assessing and interpreting the replicability of two pharmacogenomic experiments. This document will contain all of the text and code of their analyses, which are guided by a series of questions. The tools and concepts needed to answer the questions are explored in the tutorials.
 
 ## Datasets
 
@@ -32,25 +33,29 @@ Tutorials are included under the `tutorial` folder.
 
 Each tutorial contains text and code that explores various aspects of data science, replicability, and reproducibility. Tutorial `0a` provides a gentle introduction to R for those with limited programming experience, and Tutorial `0b` introduces some of the main functions in the `dplyr` and `tidyr` packages. Tutorials `1a` and `1b` get us started with exploring the two original datasets from the CCLE and GDSC studies, `rawPharmacoData.rds` and `summarizedPharmacoData.rds`. Tutorials `2a` and `2b` dig deeper into specific issues that can impact replicability and provide ideas for things to look into for this Replicathon. Finally, the Supplementary Tutorials provide more details that are useful but not immediately necessary for getting started.
 
-* [`0a_R_basics.Rmd`](tutorials/0a_R_basics.Rmd) : "Introduction to R Basics"
+There are also corresponding `.pdf` files containing the slides used to present these tutorials.
 
-* [`0b_R_tidyverse.Rmd`](tutorials/0b_R_tidyverse.Rmd) : "Introduction to the Tidyverse"
+* [`0a_R_basics.qmd`](tutorials/0a_R_basics.qmd) : "Introduction to R Basics"
 
-* [`1a_explore_rawData.Rmd`](tutorials/1a_explore_rawData.Rmd) : "Exploring Pharmacological Data with the `rawPharmacoData` Dataset"
+* [`0b_R_tidyverse.qmd`](tutorials/0b_R_tidyverse.qmd) : "Introduction to the Tidyverse"
 
-* [`1b_explore_summarizedData.Rmd`](tutorials/1b_explore_summarizedData.Rmd) : "Exploring Replicability with the `summarizedPharmacoData` Dataset"
+* [`1a_explore_rawData.qmd`](tutorials/1a_explore_rawData.qmd) : "Exploring Pharmacological Data with the `rawPharmacoData` Dataset"
 
-* [`2a_deeper_subgroups.Rmd`](tutorials/2a_deeper_subgroups.Rmd) : "Digging Deeper with Cell Line and Drug Subgroups"
+* [`1b_explore_summarizedData.qmd`](tutorials/1b_explore_summarizedData.qmd) : "Exploring Replicability with the `summarizedPharmacoData` Dataset"
 
-* [`2b_deeper_summarization.Rmd`](tutorials/2b_deeper_summarization.Rmd) : "Digging Deeper with Drug Response Summarization"
+* [`2a_deeper_subgroups.qmd`](tutorials/2a_deeper_subgroups.qmd) : "Digging Deeper with Cell Line and Drug Subgroups"
+
+* [`2b_deeper_summarization.qmd`](tutorials/2b_deeper_summarization.qmd) : "Digging Deeper with Drug Response Summarization"
 
 **Supplementary Tutorials**
 
-* [`supplement_correlation.Rmd`](tutorials/supplement_correlation.Rmd) : "Correlation Measures"
+* [`supplement_correlation.qmd`](tutorials/supplement_correlation.qmd) : "Correlation Measures"
 
-* [`supplement_dose_response.Rmd`](tutorials/supplement_dose_response.Rmd) : "Dose-Response Modeling"
+* [`supplement_dose_response.qmd`](tutorials/supplement_dose_response.qmd) : "Dose-Response Modeling"
 
-* [`supplement_PCA_clustering.Rmd`](tutorials/supplement_PCA_clustering.Rmd) : "Exploring High Dimensional Data with PCA and Clustering"
+* [`supplement_PCA_clustering.qmd`](tutorials/supplement_PCA_clustering.qmd) : "Exploring High Dimensional Data with PCA and Clustering"
+
+* [`supplement_hypothesis_testing.qmd`](tutorials/supplement_hypothesis_testing.qmd): "Statistical Hypothesis Testing"
 
 ## Code to generate data files (You do not need to use this)
 
