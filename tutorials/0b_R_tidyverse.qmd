@@ -18,15 +18,35 @@ code.sourceCode {
 
 ### Caveat
 
-Learning these packages is **not necessary for performing data analysis in R**. The R language has existed for 25 years, and while popular, the *tidyverse* is a relatively new addition to the R ecosystem of packages. Many statisticians, data scientists and other scientists are happy (and highly skilled!) performing data analysis in R without using the *tidyverse* packages. Most tasks that can be accomplished using packages in the *tidyverse* can be similarly completed using base R. However, in many cases (in particular, data manipulation), it can be much **easier with the tools in the *tidyverse***. For this and many other reasons (including excellent online documentation and a large user community), we hope that you'll give the *tidyverse* a try!
+-   Learning these packages is **not necessary for performing data analysis in R**.
+
+-   The R language has existed for 25 years, and while popular, the *tidyverse* is a relatively new addition to the R ecosystem of packages.
+
+-   Many statisticians, data scientists and other scientists are happy (and highly skilled!) performing data analysis in R without using the *tidyverse* packages.
+
+-   However, in many cases (in particular, data manipulation), it can be much **easier with the tools in the *tidyverse***. For this and many other reasons (including excellent online documentation and a large user community), we hope that you'll give the *tidyverse* a try!
 
 ## Tidyverse
 
 ### Scope
 
-If you're still interested and reading, **great!**
+The [*tidyverse*](https://www.tidyverse.org/) is a family of related R packages developed to streamline data science in R. If you've ever used the `ggplot2` package to create plots, you've already experienced part of the *tidyverse*! The [core *tidyverse* packages](https://www.tidyverse.org/packages/) include
 
-This tutorial will go over some basics about programming in R using packages in the [*tidyverse*](https://www.tidyverse.org/). The [*tidyverse*](https://www.tidyverse.org/) is a family of related R packages developed to streamline data science in R. If you've ever used the `ggplot2` package to create plots, you've already experienced part of the *tidyverse*! The [core *tidyverse* packages](https://www.tidyverse.org/packages/) include `ggplot2`, `dplyr`, `tidyr`, `readr`, `purrr`, `tibble`, `stringr`, and `forcats`.
+-   `ggplot2`
+
+-   `dplyr`
+
+-   `tidyr`
+
+-   `readr`
+
+-   `purrr`
+
+-   `tibble`
+
+-   `stringr`
+
+-   `forcats`
 
 ## Tidyverse
 
@@ -122,9 +142,11 @@ That's it! We'll continue to use `%>%` throughout this tutorial to show how usef
 
 ## The `dplyr` Package
 
-Most of this tutorial will be spent describing several functions in the `dplyr` package for working with tabular data. Remember, the best way to get a feel for these functions is to **use them to answer questions about your data**. We have included several examples for using these `dplyr` functions with the `pharmacoData` dataset.
+-   Learn by doing**: use dplyr functions to answer questions about your data**.
 
-There are many more functions in the `dplyr` package that we won't have time to cover here. More details on all of the useful functions defined in the package can be found on the [`dplyr` reference page](https://dplyr.tidyverse.org/reference/index.html).
+-   We have included several examples for using these `dplyr` functions with the `pharmacoData` dataset.
+
+-   There are many more functions in the `dplyr` package that we won't have time to cover here. More details on all of the useful functions defined in the package can be found on the [`dplyr` reference page](https://dplyr.tidyverse.org/reference/index.html).
 
 ## Subsetting
 
@@ -200,7 +222,7 @@ Simple enough! Notice that the new column is added as "`logConcentration`", as s
 
 ## Modifying
 
-Remember, if you want to keep the new columns, you'll have to assign the modified table to a variable.
+Remember, if you want to keep the new columns, you'll have to assign the modified data frame to a variable.
 
 ```{r}
 pharmacoData <- pharmacoData %>%
@@ -228,7 +250,8 @@ Great!
 For the simple case of counting the occurrences of the unique values in a column, use `count`. The following example counts the number of rows in the table corresponding to each study.
 
 ```{r}
-count(pharmacoData, study)
+pharmacoData %>%
+    count(study)
 ```
 
 Interesting! It looks like we have slightly more data from the GDSC study.
@@ -290,7 +313,15 @@ Notice that we now have a single table with the columns from both tables. There 
 
 ## The `tidyr` Package
 
-While the `dplyr` package includes many functions for manipulating data, we would have a hard time using these tools if our data is not in the correct "form". For example, what if we want to compare the viability scores in `pharmacoData` for two drugs in the CCLE study? To do this, we would want the two drugs to be in separate columns, so that we can compare them side-by-side. No amount of subsetting or mutating the table will get us there. We need to fundamentally *transform the shape* of our data.
+-   Getting data in the correct "form".
+
+-   For example, what if we want to compare the viability scores in `pharmacoData` for two drugs in the CCLE study?
+
+    -   To do this, we would want the two drugs to be in separate columns, so that we can compare them side-by-side.
+
+    -   No amount of subsetting or mutating the table will get us there.
+
+    -   We need to fundamentally *transform the shape* of our data with `tidyr`.
 
 ## The `tidyr` Package
 
@@ -322,9 +353,12 @@ head(subdat)
 Next, we will use the `pivot_wider` function to take the viability scores for the two drugs into separate columns. How do we do this? We would like to take the values in the `drug` column and turn these into our new columns. We then want to fill these columns with values from the `viability` column. To do this, we simply specify `drug` as the "`names_from=`" and `viability` as the "`values_from=`" parameters to the `pivot_wider` function.
 
 ```{r}
-subdat_wide <- pivot_wider(subdat,
-                           names_from = drug,
-                           values_from = viability)
+head(subdat)
+subdat_wide <- subdat %>%
+    pivot_wider(
+        names_from = drug,
+        values_from = viability
+    )
 head(subdat_wide)
 ```
 
@@ -343,10 +377,13 @@ head(summarizedData)
 Suppose we now want to organize all of the IC50 and AUC values stored in the separate `ic50_CCLE`, `auc_CCLE`, `ic50_GDSC` and `auc_GDSC` columns into a single column of "metric values". Essentially, we would like to reverse the "widening" procedure that we carried out above (turn a short wide table into a long skinny table). To do this, we call `pivot_longer`, specifying the columns we want to bring together (here, `ic50_CCLE`, `auc_CCLE`, `ic50_GDSC` and `auc_GDSC`), along with new column names for the two columns that will contain the former column names and the values (we'll just call these `metric` and `value`.
 
 ```{r}
-summarizedDataLong <- pivot_longer(summarizedData,
-                                   c(ic50_CCLE, auc_CCLE, ic50_GDSC, auc_GDSC),
-                                   names_to = "metric",
-                                   values_to = "value")
+head(summarizedData)
+summarizedDataLong <- summarizedData %>%
+    pivot_longer(
+        c(ic50_CCLE, auc_CCLE, ic50_GDSC, auc_GDSC),
+        names_to = "metric",
+        values_to = "value"
+    )
 head(summarizedDataLong)
 ```
 
@@ -356,10 +393,12 @@ Notice that the former column names (`ic50_CCLE`, `auc_CCLE`, `ic50_GDSC` and `a
 
 ```{r}
 ## alternatively
-summarizedDataLong <- pivot_longer(summarizedData,
-                                   -c(cellLine, drug),
-                                   names_to = "metric",
-                                   values_to = "value")
+summarizedDataLong <- summarizedData %>%
+    pivot_longer(
+        -c(cellLine, drug),
+        names_to = "metric",
+        values_to = "value"
+    )
 head(summarizedDataLong)
 ```
 
@@ -372,9 +411,11 @@ Now, we have a new column of the names (`metric`) and a new column (`value`) wit
 The `pivot_longer` and `pivot_wider` functions are opposites. Therefore, we can undo the `pivot_longer` operation above by calling `pivot_wider`.
 
 ```{r}
-summarizedDataUndo <- pivot_wider(summarizedDataLong,
-                                  names_from = metric,
-                                  values_from = value)
+summarizedDataUndo <- summarizedDataLong %>%
+    pivot_wider(
+        names_from = metric,
+        values_from = value
+    )
 head(summarizedDataUndo)
 ```
 
